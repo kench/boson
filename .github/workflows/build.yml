@@ -7,7 +7,7 @@ jobs:
   container-test-job:
     runs-on: ubuntu-latest
     container:
-      image: repo.steampowered.com/steamrt4/images/latest-public-stable/
+      image: registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v4
