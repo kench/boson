@@ -1,0 +1,15 @@
+name: Build
+on:
+  push:
+    branches:
+      - main
+jobs:
+  container-test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: repo.steampowered.com/steamrt4/images/latest-public-stable/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Print ldd version
+        run: 'ldd --version'
