@@ -11,11 +11,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Print ldd version
-        run: 'ldd --version'
+      - name: Install gcovr
+        run: 'apt install gcovr'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
         run: 'cmake --build build'
       - name: Execute
         run: './build/boson'
+      - name: Run tests
+        run: 'cd build && ctest -T Test -T Coverage && cd ../'
+      - name: Generate Cobertura report
+        run: 'gcovr --cobertura build/coverage.xml'
+      - name: Code coverage report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/**/coverage.cobertura.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_branch_rate: false
+          hide_complexity: true
+          indicators: true
+          output: both
+          thresholds: '60 80'
