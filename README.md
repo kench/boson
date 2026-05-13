@@ -27,6 +27,13 @@ cmake -B build
 cmake --build build
 ```
 
+# Running tests
+
+```
+cd build
+ctest -T Test -T Coverage
+```
+
 # Executing
 
 ```
