@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
       - name: Install gcovr
-        run: 'apt install -y gcovr'
+        run: 'sudo apt install -y gcovr'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
