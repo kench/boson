@@ -20,6 +20,14 @@ Project Boson is a lightweight overlay, schedule, and alerts app designed to run
     * Implement Twitch API redirect flow.
     * Add Twitch EventSub integration
 
+# Install dependencies
+
+# macOS
+
+```
+brew install nlohmann-json
+```
+
 # Building
 
 ```
@@ -45,6 +53,9 @@ ctest -T Test -T Coverage
 Ensure [Finch](https://runfinch.com) is installed first.
 
 ```
+finch run --volume $PWD:/data --workdir /data \
+    registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk \
+    sudo apt install -y nlohmann-json3-dev
 finch run --volume $PWD:/data --workdir /data \
     registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk \
     cmake -B build

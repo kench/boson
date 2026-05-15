@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Install gcovr
-        run: 'sudo apt install -y gcovr'
+      - name: Install dependencies
+        run: 'sudo apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
@@ -40,8 +40,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Install gcovr
-        run: 'apt install -y gcovr'
+      - name: Install dependencies
+        run: 'apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
