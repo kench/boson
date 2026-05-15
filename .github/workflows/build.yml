@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  container-test-job:
+  build-linux:
     runs-on: ubuntu-latest
     container:
       image: registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk
@@ -35,3 +35,19 @@ jobs:
           indicators: true
           output: both
           thresholds: '60 80'
+  build-steamrt4:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Install gcovr
+        run: 'apt install -y gcovr'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
+      - name: Execute
+        run: './build/boson'
+
