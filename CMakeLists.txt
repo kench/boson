@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.31)
 
 project(Boson)
 
-find_package(nlohmann_json 3.12.0 REQUIRED)
+find_package(nlohmann_json 3.11.3 REQUIRED)
 
 include(CTest)
 
