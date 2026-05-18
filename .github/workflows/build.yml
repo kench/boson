@@ -9,6 +9,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+      - name: Bootstrap vcpkg
+        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $PATH
       - name: Install dependencies
         run: 'sudo apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
@@ -40,6 +48,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+      - name: Bootstrap vcpkg
+        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $PATH
       - name: Install dependencies
         run: 'apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
