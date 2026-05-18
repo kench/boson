@@ -16,7 +16,7 @@ jobs:
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
       - name: Update PATH
-        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
         run: 'sudo apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
@@ -55,7 +55,7 @@ jobs:
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
       - name: Update PATH
-        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
         run: 'apt install -y gcovr nlohmann-json3-dev'
       - name: Configure
