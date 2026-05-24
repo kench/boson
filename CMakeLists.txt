@@ -34,3 +34,5 @@ target_compile_options(boson_json_parse_test PRIVATE -coverage)
 target_link_options(boson_json_parse_test PRIVATE -coverage)
 
 add_test(NAME boson_json_parse COMMAND boson_json_parse_test)
+
+install(TARGETS boson DESTINATION bin)
