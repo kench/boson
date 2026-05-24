@@ -1,0 +1,26 @@
+id: tv.kenley.boson.Boson
+runtime: org.freedesktop.Platform
+runtime-version: '25.08'
+sdk: org.freedesktop.Sdk
+command: boson
+modules:
+  - name: boson
+    buildsystem: cmake
+    build-commands:
+      - install -Dm755 build/boson /app/bin/boson
+    sources:
+      - type: git
+        url: https://github.com/kench/boson.git
+    modules:
+      - name: ixwebsocket
+        buildsystem: cmake
+        sources:
+          - type: archive
+            url: https://github.com/machinezone/IXWebSocket/archive/refs/tags/v12.0.0.tar.gz
+            sha256: f193bc24e10c18ab8d31d6f31370fde8b31d3eaf1de32e1d8ab14d666659b8ad
+      - name: nlohmann-json
+        buildsystem: cmake
+        sources:
+          - type: archive
+            url: https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
+            sha256: 42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa

@@ -97,4 +97,18 @@ jobs:
         run: 'cmake --build build'
       - name: Execute
         run: './build/boson'
-
+  build-steamrt4-flatpak:
+    runs-on: ubuntu-latest
+    container:
+      image: registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+      - name: Install Flatpak
+        run: 'apt install -y flatpak'
+      - name: Add Flathub repository
+        run: 'flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo'
+      - name: Build Flatpak
+        run: 'mkdir -p build/files/share/applications/ && cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop && flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml'
