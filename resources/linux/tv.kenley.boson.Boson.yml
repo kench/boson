@@ -22,6 +22,8 @@ modules:
             sha256: f193bc24e10c18ab8d31d6f31370fde8b31d3eaf1de32e1d8ab14d666659b8ad
       - name: nlohmann-json
         buildsystem: cmake
+        config-opts:
+          - -D JSON_BuildTests=OFF
         sources:
           - type: archive
             url: https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz
