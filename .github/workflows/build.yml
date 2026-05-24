@@ -32,7 +32,7 @@ jobs:
       - name: Run tests
         run: 'cp CTestCustom.cmake build && cd build && ctest -T Test -T Coverage && cd ../'
       - name: Generate Cobertura report
-        run: 'gcovr --cobertura build/coverage.xml'
+        run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
       - name: Code coverage report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
