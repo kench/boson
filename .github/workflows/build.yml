@@ -45,6 +45,31 @@ jobs:
           indicators: true
           output: both
           thresholds: '60 80'
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+      - name: Bootstrap vcpkg
+        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update CMakeUserPresets.json
+        run: sed -i '' "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: 'brew install gcovr'
+      - name: Configure CMake
+        run: 'cmake --preset=github'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
+      - name: Execute
+        run: './build/boson'
   build-steamrt4:
     runs-on: ubuntu-latest
     container:
