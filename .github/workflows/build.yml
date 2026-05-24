@@ -112,3 +112,5 @@ jobs:
         run: 'flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo'
       - name: Build Flatpak
         run: 'mkdir -p build/files/share/applications/ && cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop && flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml'
+      - name: Execute
+        run: flatpak run tv.kenley.boson.Boson
