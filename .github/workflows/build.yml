@@ -30,7 +30,7 @@ jobs:
       - name: Execute
         run: './build/boson'
       - name: Run tests
-        run: 'cd build && ctest -T Test -T Coverage && cd ../'
+        run: 'cp CTestCustom.cmake build && cd build && ctest -T Test -T Coverage && cd ../'
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml'
       - name: Code coverage report

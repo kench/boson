@@ -7,6 +7,13 @@
       "environment": {
         "VCPKG_ROOT": "REPLACE_WITH_VCPKG_ROOT"
       }
+    },
+    {
+      "name": "default",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "/Users/kenley/Documents/GitHub/vcpkg"
+      }
     }
   ]
 }
