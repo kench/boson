@@ -12,6 +12,7 @@ modules:
       - type: git
         url: https://github.com/kench/boson.git
         branch: main
+        disable-submodules: true
     modules:
       - name: ixwebsocket
         buildsystem: cmake

@@ -107,7 +107,9 @@ jobs:
         with:
           submodules: 'true'
       - name: Install Flatpak
-        run: 'apt update && apt install -y flatpak flatpak-builder'
+        run: 'apt update && apt install -y flatpak flatpak-builder fuse'
+      - name: Load FUSE kernel module
+        run: modprobe fuse
       - name: Add Flathub repository
         run: 'flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo'
       - name: Build Flatpak
