@@ -109,4 +109,11 @@ jobs:
       - name: Build Flatpak
         run: 'mkdir -p build/files/share/applications/ && cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop && flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml --disable-rofiles-fuse'
       - name: Execute
-        run: flatpak run tv.kenley.boson.Boson
+        run: 'flatpak run tv.kenley.boson.Boson'
+      - name: Build single-file bundle
+        run: 'flatpak build-bundle repo boson.flatpak tv.kenley.boson.Boson --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo'
+      - name: Upload Flatpak
+        uses: actions/upload-artifact@v7
+        with:
+          name: Flatpak
+          path: boson.flatpak
