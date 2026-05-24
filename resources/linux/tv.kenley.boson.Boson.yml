@@ -6,8 +6,6 @@ command: boson
 modules:
   - name: boson
     buildsystem: cmake
-    build-commands:
-      - install -Dm755 boson /app/bin/boson
     sources:
       - type: git
         url: https://github.com/kench/boson.git
