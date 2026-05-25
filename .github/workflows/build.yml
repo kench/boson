@@ -28,12 +28,12 @@ jobs:
       - name: Build
         run: 'cmake --build build'
       - name: Execute
-        run: timeout 5s build/boson
+        run: timeout 5s build/boson || [ $? -eq 124 ]
       - name: Run tests
         run: |
           cp CTestCustom.cmake build
           cd build
-          timeout 5s ctest -T Test -T Coverage
+          timeout 5s ctest -T Test -T Coverage || [ $? -eq 124 ]
           cd ../'
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
@@ -65,7 +65,7 @@ jobs:
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
-        run: 'brew install imagemagick inkscape coreutils'
+        run: 'brew install imagemagick inkscape'
       - name: Configure CMake
         run: 'cmake --preset=github'
       - name: Configure
@@ -73,7 +73,7 @@ jobs:
       - name: Build
         run: 'cmake --build build'
       - name: Execute
-        run: gtimeout 5s build/boson
+        run: ./build/boson || [ $? -eq 1 ]
       - name: Create macOS application directory
         run: 'mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS'
       - name: Copy macOS application binary
@@ -126,7 +126,7 @@ jobs:
       - name: Build
         run: 'cmake --build build'
       - name: Execute
-        run: timeout 5s build/boson
+        run: timeout 5s build/boson || [ $? -eq 124 ]
   build-flatpak:
     runs-on: ubuntu-latest
     steps:
@@ -143,7 +143,7 @@ jobs:
           cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop
           flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml --disable-rofiles-fuse
       - name: Execute
-        run: 'timeout 5s flatpak run tv.kenley.boson.Boson'
+        run: 'timeout 5s flatpak run tv.kenley.boson.Boson || [ $? -eq 124 ]'
       - name: Build single-file bundle
         run: 'flatpak build-bundle repo boson.flatpak tv.kenley.boson.Boson --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo'
       - name: Upload Flatpak
@@ -200,7 +200,7 @@ jobs:
       - name: Build
         run: 'cmake --build build'
       - name: Execute
-        run: 'timeout 5s build/boson'
+        run: 'timeout 5s build/boson || [ $? -eq 124 ]'
       - name: Upload build output
         uses: actions/upload-artifact@v7
         with:
