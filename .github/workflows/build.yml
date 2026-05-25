@@ -160,7 +160,7 @@ jobs:
       - name: Bootstrap vcpkg
         run: |
           cd vendor/vcpkg
-          ./bootstrap-vcpkg.sh'
+          ./bootstrap-vcpkg.sh
           cd ../../
       - name: Set environment variables
         run: |
