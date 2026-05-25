@@ -158,7 +158,10 @@ jobs:
         with:
           submodules: 'true'
       - name: Bootstrap vcpkg
-        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+        run: |
+          cd vendor/vcpkg
+          ./bootstrap-vcpkg.sh'
+          cd $GITHUB_WORKSPACE
       - name: Set environment variables
         run: |
           echo "VCPKG_ROOT=$(pwd)/vendor/vcpkg" >> $GITHUB_ENV
