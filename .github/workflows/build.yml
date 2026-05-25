@@ -172,7 +172,8 @@ jobs:
       - name: Update PATH to include dumpbin
         run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
       - name: Print MSVC location
-        run: ls C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC
+        run: dir C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC
+        shell: cmd
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
