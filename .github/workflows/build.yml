@@ -36,7 +36,7 @@ jobs:
           cp CTestCustom.cmake build
           cd build
           (timeout 5s ctest -T Test -T Coverage) || [ $? -eq 124 ]
-          cd ../'
+          cd ../
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
       - name: Code coverage report
