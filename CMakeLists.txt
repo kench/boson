@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.31)
 
+set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+
 project(Boson)
 
 find_package(nlohmann_json 3.11.3 REQUIRED)
