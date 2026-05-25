@@ -12,27 +12,25 @@ jobs:
         with:
           submodules: 'true'
       - name: Bootstrap vcpkg
-        run: |
-          cd vendor/vcpkg
-          ./bootstrap-vcpkg.sh
-      - name: Setup environment
-        run: |
-          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
-          echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-          sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
-          sudo apt install -y gcovr
-      - name: Run CMake
-        run: |
-          cmake --preset=github
-          cmake -B build
-          cmake --build build
+        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update CMakeUserPresets.json
+        run: sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: 'sudo apt install -y gcovr nlohmann-json3-dev'
+      - name: Configure CMake
+        run: 'cmake --preset=github'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
+      - name: Execute
+        run: './build/boson'
       - name: Run tests
-        run: |
-          ./build/boson
-          cp CTestCustom.cmake build
-          cd build
-          ctest -T Test -T Coverage
-          cd ../
+        run: 'cp CTestCustom.cmake build && cd build && ctest -T Test -T Coverage && cd ../'
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
       - name: Code coverage report
@@ -56,24 +54,30 @@ jobs:
           submodules: 'true'
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
-      - name: Setup environment
-        run: |
-          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
-          echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-          sed -i '' "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
-          brew install imagemagick inkscape
-      - name: Run CMake
-        run: |
-          cmake --preset=github
-          cmake -B build
-          cmake --build build
-      - name: Execute sanity test
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update CMakeUserPresets.json
+        run: sed -i '' "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
+      - name: Install dependencies
+        run: 'brew install imagemagick inkscape'
+      - name: Configure CMake
+        run: 'cmake --preset=github'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
+      - name: Execute
         run: './build/boson'
-      - name: Create macOS application bundle
+      - name: Create macOS application directory
+        run: 'mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS'
+      - name: Copy macOS application binary
         run: |
-          mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS
           cp build/boson build/files/Boson.app/Contents/MacOS/Boson
           cp resources/macos/Info.plist build/files/Boson.app/Contents/
+      - name: Create macOS application icon
+        run: |
           mkdir -p build/files/Boson.iconset
           inkscape -w 1024 -o build/files/Boson.iconset/icon_512x512@2x.png resources/shared/icon.svg
           magick build/files/Boson.iconset/icon_512x512@2x.png -resize 512 build/files/Boson.iconset/icon_512x512.png
@@ -105,37 +109,39 @@ jobs:
           submodules: 'true'
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
-      - name: Setup environment
-        run: |
-          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
-          echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-          sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
-      - name: Run CMake
-        run: |
-          cmake --preset=github
-          cmake -B build
-          cmake --build build
-      - name: Execute sanity test
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Update CMakeUserPresets.json
+        run: sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
+      - name: Update PATH
+        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
+      - name: Configure CMake
+        run: 'cmake --preset=github'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
+      - name: Execute
         run: './build/boson'
   build-flatpak:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-      - name: Setup environment
+      - name: Install dependencies
+        run: 'sudo apt update && sudo apt install -y flatpak flatpak-builder'
+      - name: Add Flathub repository
+        run: 'flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo'
+      - name: Build Flatpak
         run: |
-          sudo apt update
-          sudo apt install -y flatpak flatpak-builder
-      - name: Build Flatpak bundle
-        run: |
-          flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo
           mkdir -p build/files/share/applications/ build/files/share/icons/hicolor/scalable/apps/
           cp resources/shared/icon.svg build/files/share/icons/hicolor/scalable/apps/tv.kenley.boson.Boson.svg
           cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop
           flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml --disable-rofiles-fuse
-          flatpak build-bundle repo boson.flatpak tv.kenley.boson.Boson --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
-      - name: Execute sanity test
+      - name: Execute
         run: 'flatpak run tv.kenley.boson.Boson'
+      - name: Build single-file bundle
+        run: 'flatpak build-bundle repo boson.flatpak tv.kenley.boson.Boson --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo'
       - name: Upload Flatpak
         uses: actions/upload-artifact@v7
         with:
