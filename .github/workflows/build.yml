@@ -161,7 +161,7 @@ jobs:
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set environment variables
         run: |
-          echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+          echo "VCPKG_ROOT=$(pwd)/vendor/vcpkg" >> $GITHUB_ENV
           echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
           echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Update CMakeUserPresets.json
