@@ -91,10 +91,12 @@ jobs:
           magick -background none -size 16x16 resources/shared/icon.svg build/files/Boson.iconset/icon_16x16.png
           iconutil -c icns build/files/Boson.iconset
           cp build/files/Boson.icns build/files/Boson.app/Contents/Resources
-      - name: Upload Flatpak
+          rm -rf build/files/Boson.iconset
+          rm build/files/Boson.icns
+      - name: Upload macOS application bundle
         uses: actions/upload-artifact@v7
         with:
-          name: macOS Application
+          name: Boson
           path: build/files/
   build-steamrt4:
     runs-on: ubuntu-latest
