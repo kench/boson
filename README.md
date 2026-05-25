@@ -24,15 +24,21 @@ Project Boson is a lightweight overlay, schedule, and alerts app designed to run
 
 # Install dependencies
 
-# macOS
+# macOS/Linux
+
+## vcpkg
+
+Follow the vcpkg setup guide.
 
 ```
-brew install nlohmann-json
+cd vendor/vcpkg && ./bootstrap-vcpkg.sh
 ```
+
 
 # Building
 
 ```
+cmake --preset=default
 cmake -B build
 cmake --build build
 ```
