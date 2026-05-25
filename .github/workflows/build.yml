@@ -169,6 +169,8 @@ jobs:
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
       - name: Update cmd.exe PATH to include PowerShell
         run: cmd /C "setx PATH \"%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\""
+      - name: Print cmd.exe PATH
+        run: cmd /C "path"
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
