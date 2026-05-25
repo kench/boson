@@ -165,8 +165,8 @@ jobs:
         run: sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-      - name: Print Ninja path
-        run: which ninja
+      - name: Set CMAKE_MAKE_PROGRAM
+        run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
       - name: Configure CMake
         run: 'cmake --preset=github'
       - name: Configure
