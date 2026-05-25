@@ -160,7 +160,7 @@ jobs:
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
-        run: echo "VCPKG_ROOT=$(pwd)/vendor/vcpkg" >> $GITHUB_ENV
+        run: echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
       - name: Set CMAKE_MAKE_PROGRAM
         run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
       - name: Update PATH to include vcpkg
@@ -171,8 +171,6 @@ jobs:
         run: echo "C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_PATH
       - name: Update PATH to include dumpbin
         run: echo "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
-      - name: Print dumpbin location
-        run: which dumpbin
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
