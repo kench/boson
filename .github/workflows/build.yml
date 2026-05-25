@@ -170,12 +170,9 @@ jobs:
       - name: Update PATH to include PowerShell
         run: echo "C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_PATH
       - name: Update PATH to include dumpbin
-        run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
-      - name: Print Visual Studio location
-        run: dir C:\Program Files\Microsoft Visual Studio\
-      - name: Print MSVC location
-        run: dir C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC
-        shell: cmd
+        run: echo "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
+      - name: Print dumpbin location
+        run: which dumpbin
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
