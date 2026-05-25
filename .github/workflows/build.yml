@@ -170,7 +170,7 @@ jobs:
           sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
           sed -i "s|REPLACE_WITH_NINJA_PATH|$CMAKE_MAKE_PROGRAM|g" CMakeUserPresets.json
       - name: Configure CMake
-        run: 'cmake --preset=github-windows'
+        run: 'cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
