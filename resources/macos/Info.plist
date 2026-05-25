@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Boson</string>
+    <key>CFBundleDisplayName</key>
+    <string>Boson</string>
+    <key>CFBundleExecutable</key>
+    <string>Boson</string>
+    <key>CFBundleIconFile</key>
+    <string>Boson</string>
+    <key>CFBundleIdentifier</key>
+    <string>tv.kenley.boson.Boson</string>
+    <key>CFBundleVersion</key>
+    <string>0.0.1</string>
+    <key>CFBundlePackageType</key>
+    <string>AAPL</string>
+    <key>CFBundleSignature</key>
+    <string>bosn</string>
+</dict>
+</plist>

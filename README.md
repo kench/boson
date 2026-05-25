@@ -65,3 +65,7 @@ finch run --volume $PWD:/data --workdir /data \
     registry.gitlab.steamos.cloud/steamrt/steamrt4/sdk \
     cmake --build build
 ````
+
+# Attribution
+
+The placeholder [application icon](https://icons.getbootstrap.com/icons/broadcast-pin/) is from Bootstrap under the MIT License.

@@ -4,3 +4,4 @@ Exec=boson %u
 Type=Application
 Terminal=false
 MimeType=x-scheme-handler/boson;
+Icon=tv.kenley.boson.Boson
