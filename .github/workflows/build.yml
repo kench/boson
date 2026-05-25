@@ -168,7 +168,7 @@ jobs:
       - name: Update PATH to include mingw64
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
       - name: Update PATH to include powershell.exe
-        run: echo "PATH=$PATH:C:\Windows\System32\WindowsPowerShell\v1.0\" >> $GITHUB_ENV
+        run: echo "PATH=$PATH:C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_ENV
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
