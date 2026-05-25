@@ -170,7 +170,7 @@ jobs:
           sed -i "s|REPLACE_WITH_NINJA_PATH|$CMAKE_MAKE_PROGRAM|g" CMakeUserPresets.json
       - name: Run CMake
         run: |
-          cmake --preset=github-windows
+          cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$(which ninja)
           cmake -B build
           cmake --build build
       - name: Execute
