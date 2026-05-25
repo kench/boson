@@ -159,8 +159,11 @@ jobs:
           submodules: 'false'
       - name: Execute vswhere
         run: vswhere
-      - name: Print MSVC path
+      - name: List installed MSVC versions
         run: dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC"
+        shell: cmd
+      - name: List installed Windows SDK versions
+        run: dir "C:\Program Files (x86)\Windows Kits\10\bin\"
         shell: cmd
       - name: Bootstrap vcpkg
         run: 'cd $VCPKG_INSTALLATION_ROOT && ./bootstrap-vcpkg.sh'
@@ -175,7 +178,7 @@ jobs:
       - name: Update PATH to include PowerShell
         run: echo "C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_PATH
       - name: Update PATH to include dumpbin
-        run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
+        run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64" >> $GITHUB_PATH
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
