@@ -95,7 +95,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: macOS Application
-          path: build/files/Boson.app
+          path: build/files/
   build-steamrt4:
     runs-on: ubuntu-latest
     container:
@@ -134,7 +134,7 @@ jobs:
         run: 'flatpak remote-add --if-not-exists --user flathub https://dl.flathub.org/repo/flathub.flatpakrepo'
       - name: Build Flatpak
         run: |
-          mkdir -p build/files/share/applications/
+          mkdir -p build/files/share/applications/ build/files/share/icons/hicolor/scalable/apps/
           cp resources/shared/icon.svg build/files/share/icons/hicolor/scalable/apps/tv.kenley.boson.Boson.svg
           cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop
           flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml --disable-rofiles-fuse
