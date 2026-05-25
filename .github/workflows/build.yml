@@ -61,7 +61,7 @@ jobs:
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
-        run: 'brew install gcovr imagemagick'
+        run: 'brew install gcovr imagemagick inkscape'
       - name: Configure CMake
         run: 'cmake --preset=github'
       - name: Configure
@@ -79,16 +79,16 @@ jobs:
       - name: Create macOS application icon
         run: |
           mkdir -p build/files/Boson.iconset
-          magick -background none -size 1024x1024 resources/shared/icon.svg build/files/Boson.iconset/icon_512x512@2x.png
-          magick -background none -size 512x512 resources/shared/icon.svg build/files/Boson.iconset/icon_512x512.png
-          magick -background none -size 512x512 resources/shared/icon.svg build/files/Boson.iconset/icon_256x256@2x.png
-          magick -background none -size 256x256 resources/shared/icon.svg build/files/Boson.iconset/icon_256x256.png
-          magick -background none -size 256x256 resources/shared/icon.svg build/files/Boson.iconset/icon_128x128@2x.png
-          magick -background none -size 128x128 resources/shared/icon.svg build/files/Boson.iconset/icon_128x128.png
-          magick -background none -size 64x64 resources/shared/icon.svg build/files/Boson.iconset/icon_32x32@2x.png
-          magick -background none -size 32x32 resources/shared/icon.svg build/files/Boson.iconset/icon_32x32.png
-          magick -background none -size 32x32 resources/shared/icon.svg build/files/Boson.iconset/icon_16x16@2x.png
-          magick -background none -size 16x16 resources/shared/icon.svg build/files/Boson.iconset/icon_16x16.png
+          inkscape -w 1024 -o build/files/Boson.iconset/icon_512x512@2x.png resources/shared/icon.svg
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 512 build/files/Boson.iconset/icon_512x512.png
+          cp build/files/Boson.iconset/icon_512x512.png build/files/Boson.iconset/icon_256x256@2x.png
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 256 build/files/Boson.iconset/icon_256x256.png
+          cp build/files/Boson.iconset/icon_256x256.png build/files/Boson.iconset/icon_128x128@2x.png
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 128 build/files/Boson.iconset/icon_128x128.png
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 64 build/files/Boson.iconset/icon_32x32@2x.png
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 32 build/files/Boson.iconset/icon_32x32.png
+          cp build/files/Boson.iconset/icon_32x32.png build/files/Boson.iconset/icon_16x16@2x.png
+          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 16 build/files/Boson.iconset/icon_16x16.png
           iconutil -c icns build/files/Boson.iconset
           cp build/files/Boson.icns build/files/Boson.app/Contents/Resources
           rm -rf build/files/Boson.iconset
