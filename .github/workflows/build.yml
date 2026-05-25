@@ -158,9 +158,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Bootstrap vcpkg
-        run: |
-          cd vendor/vcpkg
-          ./bootstrap-vcpkg.sh
+        run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set environment variables
         run: |
           echo "VCPKG_ROOT=$(pwd)/vendor/vcpkg" >> $GITHUB_ENV
@@ -170,12 +168,12 @@ jobs:
         run: |
           sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
           sed -i "s|REPLACE_WITH_NINJA_PATH|$CMAKE_MAKE_PROGRAM|g" CMakeUserPresets.json
-      - name: Run CMake
-        run: |
-          stat $VCPKG_ROOT
-          cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$(which ninja)
-          cmake -B build
-          cmake --build build
+      - name: Configure CMake
+        run: 'cmake --preset=github'
+      - name: Configure
+        run: 'cmake -B build'
+      - name: Build
+        run: 'cmake --build build'
       - name: Execute
         run: './build/boson'
       - name: Upload build output
