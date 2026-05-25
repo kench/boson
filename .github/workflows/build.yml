@@ -168,7 +168,7 @@ jobs:
       - name: Update PATH to include mingw64
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
       - name: Update cmd.exe PATH to include PowerShell
-        run: cmd /C 'setx PATH "%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0"'
+        run: cmd /C "setx PATH \"%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0\""
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
@@ -179,8 +179,6 @@ jobs:
         run: |
           sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
           sed -i "s|REPLACE_WITH_NINJA_PATH|$CMAKE_MAKE_PROGRAM|g" CMakeUserPresets.json
-      - name: Validate presence of vcpkg toolchain
-        run: stat /d/a/boson/boson/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake
       - name: Configure CMake
         run: 'cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake'
       - name: Configure
