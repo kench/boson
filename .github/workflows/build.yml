@@ -160,7 +160,7 @@ jobs:
       - name: Execute vswhere
         run: vswhere
       - name: Print MSVC path
-        run: dir 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\'
+        run: dir "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\"
         shell: cmd
       - name: Bootstrap vcpkg
         run: 'cd $VCPKG_INSTALLATION_ROOT && ./bootstrap-vcpkg.sh'
