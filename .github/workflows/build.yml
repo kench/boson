@@ -15,6 +15,8 @@ jobs:
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
+      - name: Set SDL_VIDEO_DRIVER
+        run: echo "SDL_VIDEO_DRIVER=dummy" >> $GITHUB_ENV
       - name: Update CMakeUserPresets.json
         run: sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
       - name: Update PATH
@@ -28,12 +30,12 @@ jobs:
       - name: Build
         run: 'cmake --build build'
       - name: Execute
-        run: timeout 5s build/boson || [ $? -eq 1 ]
+        run: timeout 5s build/boson || [ $? -eq 124 ]
       - name: Run tests
         run: |
           cp CTestCustom.cmake build
           cd build
-          timeout 5s ctest -T Test -T Coverage || [ $? -eq 1 ]
+          timeout 5s ctest -T Test -T Coverage || [ $? -eq 124 ]
           cd ../'
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
@@ -111,6 +113,8 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: 'true'
+      - name: Move custom vcpkg - use platform SDL3
+        run: 'mv vcpkg.steamrt4.json vcpkg.json'
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
@@ -143,7 +147,7 @@ jobs:
           cp resources/linux/boson.desktop build/files/share/applications/tv.kenley.boson.Boson.desktop
           flatpak-builder --force-clean --user --install-deps-from=flathub --repo=repo --install build resources/linux/tv.kenley.boson.Boson.yml --disable-rofiles-fuse
       - name: Execute
-        run: 'timeout 5s flatpak run tv.kenley.boson.Boson || [ $? -eq 124 ]'
+        run: 'timeout 5s flatpak run --env=SDL_VIDEO_DRIVER=dummy tv.kenley.boson.Boson || [ $? -eq 124 ]'
       - name: Build single-file bundle
         run: 'flatpak build-bundle repo boson.flatpak tv.kenley.boson.Boson --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo'
       - name: Upload Flatpak
