@@ -157,6 +157,8 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: 'true'
+      - name: Install dependencies
+        run: choco install ninja
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
