@@ -163,10 +163,12 @@ jobs:
         run: echo "VCPKG_ROOT=$(pwd)/vendor/vcpkg" >> $GITHUB_ENV
       - name: Set CMAKE_MAKE_PROGRAM
         run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
-      - name: Update PATH
+      - name: Update PATH to include vcpkg
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Update PATH to include mingw64
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
+      - name: Update PATH to include powershell.exe
+        run: echo "PATH=$PATH:C:\Windows\SysWOW64\WindowsPowerShell\v1.0\" >> $GITHUB_ENV
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
       - name: Set CXX
