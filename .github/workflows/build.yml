@@ -168,7 +168,7 @@ jobs:
       - name: Set CMAKE_MAKE_PROGRAM
         run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
       - name: Configure CMake
-        run: 'cmake --preset=github'
+        run: 'cmake --preset=github -D CMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
