@@ -35,7 +35,7 @@ jobs:
         run: |
           cp CTestCustom.cmake build
           cd build
-          "timeout 5s ctest -T Test -T Coverage" || [ $? -eq 124 ]
+          timeout 5s "ctest -T Test -T Coverage" || [ $? -eq 124 ]
           cd ../'
       - name: Generate Cobertura report
         run: 'gcovr --cobertura build/coverage.xml --exclude build/vcpkg_installed'
@@ -117,6 +117,8 @@ jobs:
         run: 'mv vcpkg.steamrt4.json vcpkg.json'
       - name: Bootstrap vcpkg
         run: 'cd vendor/vcpkg && ./bootstrap-vcpkg.sh'
+      - name: Set SDL_VIDEO_DRIVER
+        run: echo "SDL_VIDEO_DRIVER=dummy" >> $GITHUB_ENV
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$GITHUB_WORKSPACE/vendor/vcpkg" >> $GITHUB_ENV
       - name: Update CMakeUserPresets.json
