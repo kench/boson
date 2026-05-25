@@ -165,6 +165,12 @@ jobs:
         run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
+      - name: Update PATH to include mingw64
+        run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
+      - name: Set CC
+        run: echo "CC=$(which clang)" >> $GITHUB_ENV
+      - name: Set CXX
+        run: echo "CXX=$(which clang)" >> $GITHUB_ENV
       - name: Update CMakeUserPresets.json
         run: |
           sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
