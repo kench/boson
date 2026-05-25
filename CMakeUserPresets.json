@@ -9,6 +9,14 @@
       }
     },
     {
+      "name": "github-windows",
+      "inherits": "vcpkg",
+      "environment": {
+        "VCPKG_ROOT": "REPLACE_WITH_VCPKG_ROOT",
+        "CMAKE_MAKE_PROGRAM": "REPLACE_WITH_NINJA_PATH"
+      }
+    },
+    {
       "name": "default",
       "inherits": "vcpkg",
       "environment": {
