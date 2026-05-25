@@ -165,8 +165,8 @@ jobs:
         run: sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-      - name: Install dependencies
-        run: vcpkg fetch ninja
+      - name: List binaries installed by Chocolately
+        run: ls /
       - name: Configure CMake
         run: 'cmake --preset=github'
       - name: Configure
