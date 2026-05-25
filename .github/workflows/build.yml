@@ -167,9 +167,8 @@ jobs:
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Update PATH to include mingw64
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
-      - name: Update PATH to include PowerShell
-        run: '[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0", "User")'
-        shell: powershell
+      - name: Update PATH to include powershell
+        run: echo "PATH=$PATH:C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_ENV
       - name: Print powershell.exe location
         run: C:\Windows\System32\where.exe powershell.exe
         shell: cmd
