@@ -171,7 +171,7 @@ jobs:
         run: '[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0", "User")'
         shell: powershell
       - name: Print powershell.exe location
-        run: where powershell.exe
+        run: C:\Windows\System32\where.exe powershell.exe
         shell: cmd
       - name: Set CC
         run: echo "CC=$(which clang)" >> $GITHUB_ENV
