@@ -172,7 +172,7 @@ jobs:
       - name: Validate presence of vcpkg toolchain
         run: stat /d/a/boson/boson/vendor/vcpkg/scripts/buildsystems/vcpkg.cmake
       - name: Configure CMake
-        run: 'cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM'
+        run: 'cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
