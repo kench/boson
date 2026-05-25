@@ -8,7 +8,7 @@ project(Boson)
 find_package(nlohmann_json 3.11.3 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(ixwebsocket CONFIG REQUIRED)
-find_package(SDL3 3.4.8 REQUIRED)
+find_package(SDL3 3.4.4 REQUIRED)
 
 include(CTest)
 
