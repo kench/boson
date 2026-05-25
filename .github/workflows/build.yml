@@ -168,9 +168,9 @@ jobs:
       - name: Update PATH to include mingw64
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
       - name: Update cmd.exe PATH to include PowerShell
-        run: C:\Windows\System32\setx.exe PATH "%PATH%;C:\Windows\System32\WindowsPowerShell\v1.0"
+        run: C:\Windows\System32\setx.exe PATH "%PATH%;C:\Windows\System32;C:\Windows\System32\WindowsPowerShell\v1.0"
         shell: cmd
-      - name: Print powershell.exe PATH
+      - name: Print powershell.exe location
         run: where powershell.exe
         shell: cmd
       - name: Set CC
