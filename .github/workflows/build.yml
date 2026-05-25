@@ -169,6 +169,8 @@ jobs:
         run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
       - name: Update PATH to include PowerShell
         run: echo "C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_PATH
+      - name: Update PATH to include dumpbin
+        run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\17.14.37301.10\bin\Hostx64\x64" >> $GITHUB_PATH
       - name: Print dumpbin location
         run: which dumpbin
       - name: Set CC
