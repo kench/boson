@@ -6,6 +6,8 @@ command: boson
 modules:
   - name: boson
     buildsystem: cmake
+    config-opts:
+      - -DCMAKE_BUILD_TYPE="MinSizeRel"
     sources:
       - type: git
         url: https://github.com/kench/boson.git

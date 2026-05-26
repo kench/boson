@@ -82,7 +82,7 @@ jobs:
       - name: Install dependencies
         run: 'brew install coreutils imagemagick inkscape'
       - name: Configure CMake
-        run: 'cmake --preset=github'
+        run: 'cmake --preset=github -DCMAKE_BUILD_TYPE="Debug"'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
@@ -141,7 +141,7 @@ jobs:
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Configure CMake
-        run: 'cmake --preset=github'
+        run: 'cmake --preset=github -DCMAKE_BUILD_TYPE="MinSizeRel"'
       - name: Configure
         run: 'cmake -B build'
       - name: Build

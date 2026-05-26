@@ -23,8 +23,6 @@ target_link_libraries(boson_test PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(boson_test PRIVATE ixwebsocket::ixwebsocket)
 target_link_libraries(boson_test PRIVATE SDL3::SDL3)
 
-set(CMAKE_BUILD_TYPE "Debug")
-
 target_compile_options(boson_test PRIVATE -coverage)
 target_link_options(boson_test PRIVATE -coverage)
 
@@ -33,8 +31,6 @@ add_test(NAME boson COMMAND boson_test)
 add_executable(boson_json_parse_test test/json-parse.cc)
 target_link_libraries(boson_json_parse_test PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(boson_json_parse_test PRIVATE ixwebsocket::ixwebsocket)
-
-set(CMAKE_BUILD_TYPE "Debug")
 
 target_compile_options(boson_json_parse_test PRIVATE -coverage)
 target_link_options(boson_json_parse_test PRIVATE -coverage)
