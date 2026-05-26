@@ -18,5 +18,18 @@
     <string>AAPL</string>
     <key>CFBundleSignature</key>
     <string>bosn</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLIconFile</key>
+            <string>generic</string>
+            <key>CFBundleURLName</key>
+            <string>boson url</string>
+            <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>boson</string>
+                </array>
+        </dict>
+    </array>
 </dict>
 </plist>
