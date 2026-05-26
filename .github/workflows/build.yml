@@ -88,11 +88,13 @@ jobs:
       - name: Execute
         run: gtimeout 5s build/boson || [ $? -eq 124 ]
       - name: Create macOS application directory
-        run: 'mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS'
+        run: 'mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS build/files/Boson.app/Contents/Frameworks'
       - name: Copy macOS application binary
         run: |
           cp build/boson build/files/Boson.app/Contents/MacOS/Boson
           cp resources/macos/Info.plist build/files/Boson.app/Contents/
+      - name: Copy SDL.framework into application bundle
+        run: cp -R ~/Library/Frameworks/SDL3.xcframework/macos-arm64_x86_64/SDL3.framework build/files/Boson.app/Frameworks/
       - name: Create macOS application icon
         run: |
           mkdir -p build/files/Boson.iconset
