@@ -1,13 +1,14 @@
-#define SDL_MAIN_HANDLED
-#include <SDL3/SDL.h>
-#include <SDL3/SDL_main.h>
-#ifndef __APPLE__
-#include <SDL3/SDL_openxr.h>
-#endif
 #include <iostream>
 #include <nlohmann/json.hpp>
 #include <openxr/openxr.h>
 #include <openxr/openxr_platform.h>
+#define SDL_MAIN_HANDLED
+#include <SDL3/SDL.h>
+#if __has_include(<SDL3/SDL_openxr.h>)
+#include <SDL3/SDL_openxr.h>
+#endif
+#include <SDL3/SDL_main.h>
+
 using json = nlohmann::json;
 
 /* We will use this renderer to draw into this window every frame. */
@@ -30,9 +31,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
     SDL_PropertiesID props = SDL_CreateProperties();
     #ifdef __APPLE__
     SDL_SetStringProperty(props, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "metal");
-    #endif
-    #ifndef __APPLE__
+    #else
     SDL_SetStringProperty(props, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "vulkan");
+    #endif
+    #if __has_include(<SDL3/SDL_openxr.h>)
     SDL_SetBooleanProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN, true);
     SDL_SetPointerProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER, &xr_instance);
     SDL_SetPointerProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_SYSTEM_ID_POINTER, &xr_system_id);
@@ -42,6 +44,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
         SDL_Log("Failed to create GPU device: %s", SDL_GetError());
     }
     SDL_DestroyProperties(props);
+
+    if (xr_instance == XR_NULL_HANDLE) {
+        SDL_Log("Failed to create XR instance");
+    }
 
     if (!SDL_CreateWindowAndRenderer("Boson", 640, 480, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
