@@ -185,8 +185,8 @@ jobs:
         run: 'cd $VCPKG_INSTALLATION_ROOT && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
-      - name: Update CMakePresets.json
-        run: sed -i '' "s|Ninja|Visual Studio 17 2022|g" CMakePresets.json
+      - name: Update CMakeUserPresets.json
+        run: sed -i "s|Ninja|Visual Studio 17 2022|g" CMakePresets.json
       - name: Configure CMake
         run: 'cmake --preset=github-windows'
       - name: Configure
