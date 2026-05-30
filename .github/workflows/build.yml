@@ -22,7 +22,7 @@ jobs:
       - name: Update PATH
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
-        run: 'sudo apt install -y gcovr nlohmann-json3-dev libopenxr-dev'
+        run: 'sudo apt install -y gcovr nlohmann-json3-dev libopenxr-dev libx11-dev'
       - name: Configure CMake
         run: 'cmake --preset=github -DCMAKE_BUILD_TYPE="Debug"'
       - name: Configure
