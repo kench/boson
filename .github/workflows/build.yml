@@ -196,7 +196,7 @@ jobs:
       - name: Build
         run: 'cmake --build build --config Release'
       - name: Execute
-        run: 'timeout 5s build/boson || [ $? -eq 124 ]'
+        run: 'timeout 5s build/Release/boson || [ $? -eq 124 ]'
       - name: Upload build output
         uses: actions/upload-artifact@v7
         with:
