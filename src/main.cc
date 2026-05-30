@@ -18,6 +18,21 @@ static SDL_Renderer *renderer = NULL;
 XrInstance xr_instance = XR_NULL_HANDLE;
 XrSystemId xr_system_id = 0;
 
+SDL_PropertiesID getGPUDeviceProperties() {
+    SDL_PropertiesID properties = SDL_CreateProperties();
+    #ifdef __APPLE__
+    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "metal");
+    #else
+    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "vulkan");
+    #endif
+    #if __has_include(<SDL3/SDL_openxr.h>)
+    SDL_SetBooleanProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN, true);
+    SDL_SetPointerProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER, &xr_instance);
+    SDL_SetPointerProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_XR_SYSTEM_ID_POINTER, &xr_system_id);
+    #endif
+    return properties;
+}
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
@@ -28,25 +43,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
         return SDL_APP_FAILURE;
     }
 
-    SDL_PropertiesID props = SDL_CreateProperties();
-    #ifdef __APPLE__
-    SDL_SetStringProperty(props, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "metal");
-    #else
-    SDL_SetStringProperty(props, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "vulkan");
-    #endif
-    #if __has_include(<SDL3/SDL_openxr.h>)
-    SDL_SetBooleanProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN, true);
-    SDL_SetPointerProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER, &xr_instance);
-    SDL_SetPointerProperty(props, SDL_PROP_GPU_DEVICE_CREATE_XR_SYSTEM_ID_POINTER, &xr_system_id);
-    #endif
-    SDL_GPUDevice *device = SDL_CreateGPUDeviceWithProperties(props);
+    SDL_PropertiesID gpuDeviceProperties = getGPUDeviceProperties();
+    SDL_GPUDevice *device = SDL_CreateGPUDeviceWithProperties(gpuDeviceProperties);
     if (device == NULL) {
         SDL_Log("Failed to create GPU device: %s", SDL_GetError());
     }
-    SDL_DestroyProperties(props);
+    SDL_DestroyProperties(gpuDeviceProperties);
 
     if (xr_instance == XR_NULL_HANDLE) {
-        SDL_Log("Failed to create XR instance");
+        SDL_Log("XR instance unavailable");
     }
 
     if (!SDL_CreateWindowAndRenderer("Boson", 640, 480, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
@@ -62,7 +67,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 {
     if (event->type != SDL_EVENT_MOUSE_MOTION) {
-        std::cout << "Event received: " << static_cast<int>(event->type) << std::endl;
+        SDL_Log("Event received: %d", static_cast<int>(event->type));
     }
     if (event->type == SDL_EVENT_QUIT) {
         return SDL_APP_SUCCESS;
@@ -97,7 +102,7 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result)
 
 int SDLCALL app_callback(int argc, char *argv[])
 {
-    std::cout << "Hello, SDL!" << std::endl;
+    SDL_Log("Hello, SDL!");
     return SDL_EnterAppMainCallbacks(
         argc, argv,
         SDL_AppInit, SDL_AppIterate, SDL_AppEvent, SDL_AppQuit
@@ -105,6 +110,6 @@ int SDLCALL app_callback(int argc, char *argv[])
 }
 
 int main(int argc, char* argv[], char* envp[]) {
-    std::cout << "Hello, world!" << std::endl;
+    SDL_Log("Hello, world!");
     return SDL_RunApp(argc, argv, app_callback, NULL);
 }
