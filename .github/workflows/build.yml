@@ -190,7 +190,7 @@ jobs:
       - name: Update CMakePresets.json
         run: sed -i "s|Ninja|Visual Studio 17 2022|g" CMakePresets.json
       - name: Configure CMake
-        run: 'cmake --preset=github-windows'
+        run: 'cmake --preset=github-windows -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
