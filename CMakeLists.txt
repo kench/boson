@@ -36,7 +36,29 @@ if (APPLE)
 
   target_link_libraries(Boson PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(Boson PRIVATE ixwebsocket::ixwebsocket)
-  target_link_libraries(Boson PRIVATE SDL3::SDL3)
+
+  find_library(SDL3_FRAMEWORK
+    NAMES SDL3
+    PATHS "~/Library/Frameworks"
+  )
+
+  if(NOT SDL3_FRAMEWORK)
+    message(FATAL_ERROR "SDL3.framework could not be found!")
+  else()
+    message(STATUS "Using SDL3_FRAMEWORK at: ${SDL3_FRAMEWORK}")
+  endif()
+
+  set_source_files_properties("${SDL3_FRAMEWORK}" PROPERTIES
+    MACOSX_PACKAGE_LOCATION Frameworks
+  )
+  target_sources(Boson PRIVATE "${SDL3_FRAMEWORK}")
+  target_link_libraries(Boson PRIVATE ${SDL3_FRAMEWORK})
+  target_include_directories(Boson PRIVATE ${SDL3_FRAMEWORK}/Headers)
+
+  set_target_properties(Boson PROPERTIES
+    BUILD_WITH_INSTALL_RPATH TRUE
+    INSTALL_RPATH "@executable_path/../Frameworks"
+  )
 else()
   add_executable(boson src/main.cc)
   target_link_libraries(boson PRIVATE nlohmann_json::nlohmann_json)
