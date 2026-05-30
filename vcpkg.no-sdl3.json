@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "ixwebsocket",
-    "nlohmann-json"
+    "nlohmann-json",
+    "openxr-loader"
   ]
 }

@@ -2,6 +2,7 @@
   "dependencies": [
     "ixwebsocket",
     "nlohmann-json",
+    "openxr-loader",
     "sdl3"
   ]
 }
