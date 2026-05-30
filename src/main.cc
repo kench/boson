@@ -12,9 +12,9 @@
 using json = nlohmann::json;
 
 #if __has_include(<SDL3/SDL_openxr.h>)
-const bool kSDLHasOpenXRSupport = false;
-#else
 const bool kSDLHasOpenXRSupport = true;
+#else
+const bool kSDLHasOpenXRSupport = false;
 #endif
 
 /* We will use this renderer to draw into this window every frame. */
