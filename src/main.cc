@@ -3,6 +3,8 @@
 #include <SDL3/SDL_main.h>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include <openxr/openxr.h>
+#include <openxr/openxr_platform.h>
 using json = nlohmann::json;
 
 /* We will use this renderer to draw into this window every frame. */

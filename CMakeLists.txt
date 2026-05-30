@@ -11,6 +11,7 @@ find_package(nlohmann_json 3.11.3 REQUIRED)
 find_package(Threads REQUIRED)
 find_package(ixwebsocket CONFIG REQUIRED)
 find_package(SDL3 3.4.4 REQUIRED)
+find_package(OpenXR CONFIG REQUIRED)
 
 include(CTest)
 
@@ -36,6 +37,7 @@ if (APPLE)
 
   target_link_libraries(Boson PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(Boson PRIVATE ixwebsocket::ixwebsocket)
+  target_link_libraries(Boson PRIVATE OpenXR::headers OpenXR::openxr_loader)
 
   find_library(SDL3_FRAMEWORK
     NAMES SDL3
