@@ -185,32 +185,14 @@ jobs:
         run: 'cd $VCPKG_INSTALLATION_ROOT && ./bootstrap-vcpkg.sh'
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$VCPKG_INSTALLATION_ROOT" >> $GITHUB_ENV
-      - name: Set CMAKE_MAKE_PROGRAM
-        run: echo "CMAKE_MAKE_PROGRAM=$(which ninja)" >> $GITHUB_ENV
-      - name: Update PATH to include vcpkg
-        run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
-      - name: Update PATH to include mingw64
-        run: echo "PATH=$PATH:C:\msys64\mingw64\bin" >> $GITHUB_ENV
-      - name: Update PATH to include PowerShell
-        run: echo "C:\Windows\System32\WindowsPowerShell\v1.0" >> $GITHUB_PATH
-      - name: Update PATH to include dumpbin
-        run: echo "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\14.44.35207\bin\Hostx64\x64" >> $GITHUB_PATH
-      - name: Set CC
-        run: echo "CC=$(which clang)" >> $GITHUB_ENV
-      - name: Set CXX
-        run: echo "CXX=$(which clang)" >> $GITHUB_ENV
-      - name: Set RC
-        run: echo "RC=C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\rc.exe" >> $GITHUB_ENV
-      - name: Update CMakeUserPresets.json
-        run: |
-          sed -i "s|REPLACE_WITH_VCPKG_ROOT|$VCPKG_ROOT|g" CMakeUserPresets.json
-          sed -i "s|REPLACE_WITH_NINJA_PATH|$CMAKE_MAKE_PROGRAM|g" CMakeUserPresets.json
+      - name: Update CMakePresets.json
+        run: sed -i '' "s|Ninja|Visual Studio 17 2022|g" CMakePresets.json
       - name: Configure CMake
-        run: 'cmake --preset=github-windows -DCMAKE_MAKE_PROGRAM=$CMAKE_MAKE_PROGRAM -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake'
+        run: 'cmake --preset=github-windows'
       - name: Configure
         run: 'cmake -B build'
       - name: Build
-        run: 'cmake --build build'
+        run: 'cmake --build build --config Release'
       - name: Execute
         run: 'timeout 5s build/boson || [ $? -eq 124 ]'
       - name: Upload build output
