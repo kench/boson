@@ -70,6 +70,20 @@ jobs:
         run: echo "PATH=$VCPKG_ROOT:$PATH" >> $GITHUB_ENV
       - name: Install dependencies
         run: 'brew install coreutils imagemagick inkscape'
+      - name: Create macOS application icon
+        run: |
+          mkdir -p resources/macos/Boson.iconset
+          inkscape -w 1024 -o resources/macos/Boson.iconset/icon_512x512@2x.png resources/shared/icon.svg
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 512 resources/macos/Boson.iconset/icon_512x512.png
+          cp resources/macos/Boson.iconset/icon_512x512.png resources/macos/Boson.iconset/icon_256x256@2x.png
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 256 resources/macos/Boson.iconset/icon_256x256.png
+          cp resources/macos/Boson.iconset/icon_256x256.png resources/macos/Boson.iconset/icon_128x128@2x.png
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 128 resources/macos/Boson.iconset/icon_128x128.png
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 64 resources/macos/Boson.iconset/icon_32x32@2x.png
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 32 resources/macos/Boson.iconset/icon_32x32.png
+          cp resources/macos/Boson.iconset/icon_32x32.png resources/macos/Boson.iconset/icon_16x16@2x.png
+          magick resources/macos/Boson.iconset/icon_512x512@2x.png -resize 16 resources/macos/Boson.iconset/icon_16x16.png
+          iconutil -c icns resources/macos/Boson.iconset
       - name: Configure CMake
         run: 'cmake --preset=github'
       - name: Configure
@@ -77,35 +91,12 @@ jobs:
       - name: Build
         run: 'cmake --build build --config Release'
       - name: Execute
-        run: gtimeout 5s build/Release/boson || [ $? -eq 124 ]
-      - name: Create macOS application directory
-        run: 'mkdir -p build/files/Boson.app/Contents/Resources build/files/Boson.app/Contents/MacOS build/files/Boson.app/Contents/Frameworks'
-      - name: Copy macOS application binary
-        run: |
-          cp build/Release/boson build/files/Boson.app/Contents/MacOS/Boson
-          cp resources/macos/Info.plist build/files/Boson.app/Contents/
-      - name: Create macOS application icon
-        run: |
-          mkdir -p build/files/Boson.iconset
-          inkscape -w 1024 -o build/files/Boson.iconset/icon_512x512@2x.png resources/shared/icon.svg
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 512 build/files/Boson.iconset/icon_512x512.png
-          cp build/files/Boson.iconset/icon_512x512.png build/files/Boson.iconset/icon_256x256@2x.png
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 256 build/files/Boson.iconset/icon_256x256.png
-          cp build/files/Boson.iconset/icon_256x256.png build/files/Boson.iconset/icon_128x128@2x.png
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 128 build/files/Boson.iconset/icon_128x128.png
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 64 build/files/Boson.iconset/icon_32x32@2x.png
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 32 build/files/Boson.iconset/icon_32x32.png
-          cp build/files/Boson.iconset/icon_32x32.png build/files/Boson.iconset/icon_16x16@2x.png
-          magick build/files/Boson.iconset/icon_512x512@2x.png -resize 16 build/files/Boson.iconset/icon_16x16.png
-          iconutil -c icns build/files/Boson.iconset
-          cp build/files/Boson.icns build/files/Boson.app/Contents/Resources
-          rm -rf build/files/Boson.iconset
-          rm build/files/Boson.icns
+        run: gtimeout 5s build/Release/Boson.app/Contents/MacOS/Boson || [ $? -eq 124 ]
       - name: Upload macOS application bundle
         uses: actions/upload-artifact@v7
         with:
           name: Boson
-          path: build/files/
+          path: build/Release/
   build-steamrt4:
     runs-on: ubuntu-latest
     container:
