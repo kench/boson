@@ -201,4 +201,4 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: Artifacts
-          path: build
+          path: build/Release

@@ -11,6 +11,12 @@
 
 using json = nlohmann::json;
 
+#if __has_include(<SDL3/SDL_openxr.h>)
+const bool kSDLHasOpenXRSupport = false;
+#else
+const bool kSDLHasOpenXRSupport = true;
+#endif
+
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
@@ -22,6 +28,8 @@ SDL_PropertiesID getGPUDeviceProperties() {
     SDL_PropertiesID properties = SDL_CreateProperties();
     #ifdef __APPLE__
     SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "metal");
+    #elif _WIN32
+    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "d3d12");
     #else
     SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "vulkan");
     #endif
@@ -50,8 +58,12 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
     }
     SDL_DestroyProperties(gpuDeviceProperties);
 
-    if (xr_instance == XR_NULL_HANDLE) {
+    if (!kSDLHasOpenXRSupport) {
+        SDL_Log("SDL3 library does not have OpenXR support");
+    } else if (xr_instance == XR_NULL_HANDLE) {
         SDL_Log("XR instance unavailable");
+    } else {
+        SDL_Log("XR instance initialized");
     }
 
     if (!SDL_CreateWindowAndRenderer("Boson", 640, 480, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
