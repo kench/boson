@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 #include <openxr/openxr.h>
 #include <openxr/openxr_platform.h>
@@ -34,7 +35,9 @@ SDL_PropertiesID getGPUDeviceProperties() {
 
 SDL_WindowFlags getSDLWindowFlags() {
     const char* env_sdl_video_driver = std::getenv("SDL_VIDEO_DRIVER");
-    if (std::strcmp(env_sdl_video_driver, kDummySDLVideoDriver)) {
+    if (env_sdl_video_driver == nullptr) {
+        return SDL_WINDOW_RESIZABLE;
+    } else if (std::strcmp(env_sdl_video_driver, kDummySDLVideoDriver)) {
         #if defined(__APPLE__)
         return SDL_WINDOW_METAL;
         #elif defined(_WIN32)
