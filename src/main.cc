@@ -26,13 +26,6 @@ XrSystemId xr_system_id = 0;
 
 SDL_PropertiesID getGPUDeviceProperties() {
     SDL_PropertiesID properties = SDL_CreateProperties();
-    #ifdef __APPLE__
-    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "metal");
-    #elif _WIN32
-    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "d3d12");
-    #else
-    SDL_SetStringProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_NAME_STRING, "vulkan");
-    #endif
     #if __has_include(<SDL3/SDL_openxr.h>)
     SDL_SetBooleanProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_XR_ENABLE_BOOLEAN, true);
     SDL_SetPointerProperty(properties, SDL_PROP_GPU_DEVICE_CREATE_XR_INSTANCE_POINTER, &xr_instance);
