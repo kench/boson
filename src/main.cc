@@ -34,6 +34,16 @@ SDL_PropertiesID getGPUDeviceProperties() {
     return properties;
 }
 
+SDL_WindowFlags getSDLWindowFlags() {
+    #if defined(__APPLE__)
+    return SDL_WINDOW_METAL;
+    #elif defined(_WIN32)
+    return SDL_WINDOW_RESIZABLE;
+    #else
+    return SDL_WINDOW_VULKAN;
+    #endif
+}
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
@@ -59,11 +69,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
         SDL_Log("XR instance initialized");
     }
 
-    if (!SDL_CreateWindowAndRenderer("Boson", 640, 480, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer("Boson", 1280, 720, getSDLWindowFlags(), &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-    SDL_SetRenderLogicalPresentation(renderer, 640, 480, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+    SDL_SetRenderLogicalPresentation(renderer, 1280, 720, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
