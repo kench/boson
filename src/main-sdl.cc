@@ -1,3 +1,4 @@
+#include <cstring>
 #include <openxr/openxr.h>
 #include <openxr/openxr_platform.h>
 #define SDL_MAIN_HANDLED
@@ -12,6 +13,7 @@ const bool kSDLHasOpenXRSupport = true;
 #else
 const bool kSDLHasOpenXRSupport = false;
 #endif
+const char* kDummySDLVideoDriver = "dummy";
 
 /* We will use this renderer to draw into this window every frame. */
 static SDL_Window *window = NULL;
@@ -31,13 +33,19 @@ SDL_PropertiesID getGPUDeviceProperties() {
 }
 
 SDL_WindowFlags getSDLWindowFlags() {
-    #if defined(__APPLE__)
-    return SDL_WINDOW_METAL;
-    #elif defined(_WIN32)
-    return SDL_WINDOW_RESIZABLE;
-    #else
-    return SDL_WINDOW_VULKAN;
-    #endif
+    const char* env_sdl_video_driver = std::getenv("SDL_VIDEO_DRIVER");
+    if (std::strcmp(env_sdl_video_driver, kDummySDLVideoDriver)) {
+        #if defined(__APPLE__)
+        return SDL_WINDOW_METAL;
+        #elif defined(_WIN32)
+        return SDL_WINDOW_RESIZABLE;
+        #else
+        return SDL_WINDOW_VULKAN;
+        #endif
+    } else {
+        // Disable hardware acceleration when dummy video driver is used.
+        return SDL_WINDOW_RESIZABLE;
+    }
 }
 
 /* This function runs once at startup. */
