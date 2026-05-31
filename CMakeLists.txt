@@ -16,7 +16,7 @@ find_package(OpenXR CONFIG REQUIRED)
 include(CTest)
 
 if (APPLE)
-  set(APP_SOURCES src/main.cc)
+  set(APP_SOURCES src/main.cc src/main-sdl.cc)
   set(APP_RESOURCES resources/macos/Boson.icns)
   add_executable(Boson MACOSX_BUNDLE
     ${APP_SOURCES}
@@ -63,11 +63,14 @@ if (APPLE)
   )
 else()
   add_executable(boson src/main.cc)
+  add_executable(boson src/main-sdl.cc)
   target_link_libraries(boson PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(boson PRIVATE ixwebsocket::ixwebsocket)
   target_link_libraries(boson PRIVATE SDL3::SDL3)
 
   add_executable(boson_test src/main.cc)
+  add_executable(boson_test src/main-sdl.cc)
+
   target_link_libraries(boson_test PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(boson_test PRIVATE ixwebsocket::ixwebsocket)
   target_link_libraries(boson_test PRIVATE SDL3::SDL3)
