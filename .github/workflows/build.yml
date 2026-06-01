@@ -173,6 +173,8 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: 'false'
+      - name: Move custom vcpkg - include spout2 library
+        run: 'mv vcpkg.spout2.json vcpkg.json'
       - name: Execute vswhere
         run: vswhere
       - name: List installed MSVC versions

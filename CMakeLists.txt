@@ -13,6 +13,10 @@ find_package(ixwebsocket CONFIG REQUIRED)
 find_package(SDL3 3.4.4 REQUIRED)
 find_package(OpenXR CONFIG REQUIRED)
 
+if(WIN32)
+find_package(Spout2 CONFIG REQUIRED)
+endif()
+
 include(CTest)
 
 if (APPLE)
@@ -66,12 +70,18 @@ else()
   target_link_libraries(boson PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(boson PRIVATE ixwebsocket::ixwebsocket)
   target_link_libraries(boson PRIVATE SDL3::SDL3)
+  if(WIN32)
+  target_link_libraries(boson PRIVATE Spout2::SpoutDX)
+  endif()
 
   add_executable(boson_test src/main.cc src/main-sdl.cc)
 
   target_link_libraries(boson_test PRIVATE nlohmann_json::nlohmann_json)
   target_link_libraries(boson_test PRIVATE ixwebsocket::ixwebsocket)
   target_link_libraries(boson_test PRIVATE SDL3::SDL3)
+  if(WIN32)
+  target_link_libraries(boson_test PRIVATE Spout2::SpoutDX)
+  endif()
   target_compile_options(boson_test PRIVATE -coverage)
   target_link_options(boson_test PRIVATE -coverage)
 
